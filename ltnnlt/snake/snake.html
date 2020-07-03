@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game">
+		
+	</div>
+	<button id="up" class="control" onclick="move('up')" ontouchstart="move('up')">UP</button>
+    <button id="down" class="control" onclick="move('down')" ontouchstart="move('down')">DOWN</button>
+    <button id="left" class="control" onclick="move('left')" ontouchstart="move('left')">LEFT</button>
+    <button id="right" class="control" onclick="move('right')" ontouchstart="move('right')">RIGHT</button>
+</body>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script src="/snake.js"></script>
+<script src="/food.js"></script>
+<script src="/game.js"></script>
+<script>
+	function changeStyle(id){
+		var elements = document.getElementsByClassName("control");
+		for(var i =0; i<elements.length; i++){
+			elements[i].setAttribute("style", "border: 1px solid #fff; background: #000");
+		}
+		document.getElementById(id).setAttribute("style", "border: 2px solid #000; background: #969696");
+	}
+	function move(direction){
+		debugger;
+		changeStyle(direction);
+		socket.emit('direction',direction)
+	}
+	document.addEventListener("keyup", (e) => {
+		if(e.which == 37){
+			move("left");
+			}
+
+			else if(e.which == 38){
+				move("up");
+			}
+
+			else if(e.which == 39){
+				move("right");
+			}
+
+			else if(e.which == 40){
+				move("down");
+			}
+	})
+	var socket = io('http://localhost:3000');
+	socket.on('directionFromServer',function(data){
+		debugger;
+		console.log(data);
+		var e = new CustomEvent("move", {"detail":data});
+		document.dispatchEvent(e);
+	})
+
+</script>
+</html>

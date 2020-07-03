@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="game">
+		
+	</div>
+	<button ontouchstart="move('up')">UP</button>
+    <button ontouchstart="move('down')">DOWN</button>
+    <button ontouchstart="move('left')">LEFT</button>
+    <button ontouchstart="move('right')">RIGHT</button>
+</body>
+<script src="http://localhost:3000/socket.io/socket.io.js"></script>
+<script src="/snake.js"></script>
+<script src="/food.js"></script>
+<script src="/game.js"></script>
+<script src="http://localhost:3000">
+	function move(direction){
+		socket.emit('direction',direction)
+	}
+
+</script>
+
+
+
+ <script>
+	var socket = io('http://localhost:3000');
+	socket.on('news',function(data){
+		console.log(data);
+		socket.emit('my other data',{my :'data'});
+	})
+</script>
+</html>
